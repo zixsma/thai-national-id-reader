@@ -68,7 +68,6 @@ const readData = async (reader, protocol, withPhoto, callback) => {
     }
 
     const tempAddress = rawAddress.split('#')
-    console.log(tempAddress)
     data.address = tempAddress.filter(o => o !== '').join(' ').trim()
     data.addrHouseNo = tempAddress[0]
     data.addrVillageNo = tempAddress[1]
