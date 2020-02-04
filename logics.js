@@ -68,14 +68,16 @@ const readData = async (reader, protocol, withPhoto, callback) => {
     }
 
     const tempAddress = rawAddress.split('#')
+    console.log(tempAddress)
     data.address = tempAddress.filter(o => o !== '').join(' ').trim()
     data.addrHouseNo = tempAddress[0]
     data.addrVillageNo = tempAddress[1]
-    data.addrLane = tempAddress[2]
-    data.addrRoad = tempAddress[3]
-    data.addrTambol = tempAddress[4]
-    data.addrAmphur = tempAddress[5]
-    data.addrProvince = tempAddress[6]
+    data.addrTrok = tempAddress[2]
+    data.addrAlley = tempAddress[3]
+    data.addrRoad = tempAddress[4]
+    data.addrTambol = tempAddress[5]
+    data.addrAmphur = tempAddress[6]
+    data.addrProvince = tempAddress[7]
 
     data.issue = parseDateToString(rawIssueExpire.slice(0, 8))
     data.expire = parseDateToString(rawIssueExpire.slice(8, 16))
