@@ -42,29 +42,40 @@ const readData = async (reader, protocol, withPhoto, callback) => {
     let data = {}
     data.citizenId = citizenId
     
-    const personalInfo = rawPersonalInfo.split(' ').filter(o => o !== '')
-    data.titleTH = personalInfo[0]
-    data.firstNameTH = personalInfo[1]
-    data.lastNameTH = personalInfo[2]
-    data.titleEN = personalInfo[3]
-    data.firstNameEN = personalInfo[4]
-    data.lastNameEN = personalInfo[5]
     
-    const tempBirthday = personalInfo[6].slice(0, -1)
+    const thaiName = rawPersonalInfo.substr(0, 100).trim().split('#');
+    const englishName = rawPersonalInfo.substr(100, 100).trim().split('#');
+
+    data.titleTH = thaiName[0]
+    data.firstNameTH = thaiName[1]
+    data.lastNameTH = thaiName[3]
+    data.titleEN = englishName[0]
+    data.firstNameEN = englishName[1]
+    data.lastNameEN = englishName[3]
+    
+    const tempBirthday = rawPersonalInfo.substr(200, 8)
     data.birthday = parseDateToString(tempBirthday)
 
-    if(personalInfo[6].slice(-1) === '1') {
+    const gender = rawPersonalInfo.substr(208, 1)
+    if(gender === '1') {
       data.gender = 'male'
     }
-    else  if(personalInfo[6].slice(-1) === '2') {
+    else  if(gender === '2') {
       data.gender = 'female'
     }
     else {
       data.gender = 'other' 
     }
 
-    const tempAddress = rawAddress.split(' ').filter(o => o !== '')
-    data.address = tempAddress.join(' ')
+    const tempAddress = rawAddress.split('#')
+    data.address = tempAddress.filter(o => o !== '').join(' ').trim()
+    data.addrHouseNo = tempAddress[0]
+    data.addrVillageNo = tempAddress[1]
+    data.addrLane = tempAddress[2]
+    data.addrRoad = tempAddress[3]
+    data.addrTambol = tempAddress[4]
+    data.addrAmphur = tempAddress[5]
+    data.addrProvince = tempAddress[6]
 
     data.issue = parseDateToString(rawIssueExpire.slice(0, 8))
     data.expire = parseDateToString(rawIssueExpire.slice(8, 16))
